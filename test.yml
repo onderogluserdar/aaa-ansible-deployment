@@ -1,5 +1,5 @@
 
-- hosts: Servers
+- hosts: aaaservers
   name: Deployment
   gather_facts: no
   remote_user: root
@@ -7,19 +7,13 @@
 
   tasks:
 
-# Backup old files
+# Check if AAA is running
 
-    - name: copy previous version
-      command: cp -R /var/run/AAA/AAAServer/conf /var/run/AAA/conf
-      ignore_errors: yes
-      register: isExist
+#    - name: Check opened ports by AAA
+#      shell: netstat -peanut | grep drs | grep 3868
+#      ignore_errors: yes
+#      register: isExist
 
-# Reload Actual Conf files
-    - block:
-       - name: copy actual conf files
-         command: cp -R /var/run/AAA/conf /var/run/AAA/AAAServer/
-
-       - name: remove backup file
-         file: path=/var/run/AAA/conf state=absent
-      when: isExist|succeeded
+#    - name: print aaa process ids 
+#      debug: msg="{{ isExist.stdout_lines }}"
 

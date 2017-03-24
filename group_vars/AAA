@@ -1,2 +1,7 @@
 ---
-aaa_directory: /var/run/AAA/
+aaa_directory: /var/aaa
+conf_backup_dir: /var/conf_backup
+tcp_port: 3868
+tls_port: 5658
+udp_port: 1812
+sctp_port:3868
