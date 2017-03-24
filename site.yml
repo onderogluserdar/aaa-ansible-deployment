@@ -1,0 +1,100 @@
+---
+- hosts: Servers
+  name: Deployment
+  gather_facts: no
+  remote_user: root
+  #strategy: debug
+
+  tasks:
+
+# Install python for ansible authorized_key update 
+
+    - name: install python bindings for SELinux
+      yum: name={{item}} state=present
+      with_items:
+      - libselinux-python
+      - libsemanage-python
+
+    - name: test to see if SELinux is running
+      command: getenforce
+      register: sestatus
+      changed_when: false
+    
+    - name: Install my SSH public keys on Remote Servers
+      authorized_key: user=root state=present key="{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+    
+
+# Backup old files
+
+    - name: copy previous version
+      command: cp -R /var/run/AAA/AAAServer/conf /var/run/AAA/conf
+      ignore_errors: yes
+      register: isExist
+
+
+# AAA bundle upload operations 
+
+    - name: create temp directory
+      file: path=/tmp/AAA state=directory
+
+    - name: retrieve bundle list from directory
+      local_action: find paths="." patterns="MS_*.tar.gz"
+      register: bundle
+
+    - name: upload bundle
+      copy: src={{ bundle.files.0.path }} dest=/tmp/AAA
+
+    - name: create aaa directory
+      file: path=/var/run/AAA/AAAServer state=directory
+
+    - name: unarchive bundle file
+      unarchive: src=/tmp/AAA/{{ bundle.files.0.path }} dest=/tmp/AAA remote_src=True
+   
+    - name: retrieve AAA tar
+      find: paths="/tmp/AAA" patterns="drs_*.tar.gz"
+      register: aaafile
+
+    - name: unarchive AAA file
+      unarchive: src={{ aaafile.files.0.path }} dest=/var/run/AAA/AAAServer remote_src=True
+
+    - name: delete temp directory
+      file: path=/tmp/AAA state=absent
+
+
+# Reload Actual Conf files
+    - block:
+       - name: copy actual conf files
+         command: cp -R /var/run/AAA/conf /var/run/AAA/AAAServer/
+
+       - name: remove backup file
+         file: path=/var/run/AAA/conf state=absent
+      when: isExist|succeeded
+
+# AAA kill active process & start the latest load
+
+    - name: check if AAA is running
+      command: pgrep drs
+      register: drs_pid
+      ignore_errors: yes
+
+#    - name: print aaa process ids 
+#      debug: msg="{{ drs_pid.stdout_lines }}"
+#      ignore_errors: yes
+
+    - name: message everybody logged to Servers
+      command: wall *****AAA will be down in 30 seconds!***** 'beep'
+
+#    - name: Pause 30 seconds
+#      pause: seconds=30
+
+    - name: kill aaa processes
+      shell: pgrep drs | xargs kill -2
+      when: drs_pid|succeeded
+
+    - name: start latest AAA 
+      shell: ./rundrs.sh &
+      args:
+        chdir: /var/run/AAA/AAAServer
+
+    - name: message everybody logged to Servers
+      command: wall *****AAA is online again!***** 'beep'

@@ -1,0 +1,9 @@
+[Servers]
+Server_Remote ansible_host=47.168.59.216
+
+[Proxies]
+Proxy_Remote ansible_host=47.168.59.216
+
+[MS]
+MS_Remote ansible_host=47.168.59.217
+
