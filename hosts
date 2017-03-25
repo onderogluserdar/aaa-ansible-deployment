@@ -1,12 +1,12 @@
 [aaaservers]
-server_ci ansible_host=47.168.59.216
+aaaserver ansible_host=47.168.59.215
 
 [aaaproxies]
-proxy_ci ansible_host=47.168.59.216
+aaaproxy ansible_host=47.168.59.216
 
 [aaa:children]
 aaaservers
 aaaproxies
 
 [ms]
-ms_ci ansible_host=47.168.59.217
+ms ansible_host=47.168.59.217

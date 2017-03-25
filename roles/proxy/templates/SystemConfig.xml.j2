@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SystemConfig>
+    <Name>{{ inventory_hostname }}</Name>
+    <Origin-Host-Name>{{ inventory_hostname }}.netas.com</Origin-Host-Name>
+    <Origin-Realm>{{ inventory_hostname }}.realm.netas.com</Origin-Realm>
+    <Product-Name>Netas_DRS</Product-Name>
+    <Vendor-Id>18135</Vendor-Id>
+    
+	<Supported-Vendor-Id>10415</Supported-Vendor-Id>
+	<!--This field can be multiple. -->
+	<Acct-Application-Id>22</Acct-Application-Id>
+	<!--This field can be multiple. -->
+	<Auth-Application-Id>12</Auth-Application-Id>
+	<!--This field can be multiple. -->
+	<Vendor-Specific-Acct-Application-Id>
+		<Vendor-Id>42</Vendor-Id>
+		<Application-Id>43</Application-Id>
+	</Vendor-Specific-Acct-Application-Id>
+	<!--This field can be multiple. -->
+	<Vendor-Specific-Auth-Application-Id>
+		<Vendor-Id>10415</Vendor-Id>
+		<Application-Id>33</Application-Id>
+	</Vendor-Specific-Auth-Application-Id>
+   
+    
+    <Transport name="tr-tcp1">
+       <Address>{{ ansible_host }}</Address>
+       <Protocol>tcp</Protocol>
+       <Port>{{ tcp_port }}</Port>
+       <Secure>false</Secure>
+       <Listen-Enabled>true</Listen-Enabled>
+    </Transport>
+    
+    <Transport name="tr-sctp1">
+       <Address>{{ ansible_host }}</Address>
+       <Protocol>sctp</Protocol>
+       <Port>{{ sctp_port }}</Port>
+       <Secure>false</Secure>
+       <Listen-Enabled>true</Listen-Enabled>
+    </Transport>
+    
+    <Transport name="tr-udp1">
+       <Address>{{ ansible_host }}</Address>
+       <Protocol>udp</Protocol>
+       <Port>{{ udp_port }}</Port>
+       <Secure>false</Secure>
+       <Listen-Enabled>true</Listen-Enabled>
+       <Signaling>radius</Signaling>
+    </Transport>
+
+    <Transport name="tr-tls1">
+       <Address>{{ ansible_host }}</Address>
+       <Protocol>tcp</Protocol>
+       <Port>{{ tls_port }}</Port>
+       <Secure>true</Secure>
+       <Listen-Enabled>true</Listen-Enabled>
+    </Transport>
+    
+  <Certificate-Path>data/cert.pem</Certificate-Path>
+  <Private-Key-Path>data/pk.pem</Private-Key-Path>
+  <CA-Path>data/ca.pem</CA-Path>
+  <Certificate-Verify-Depth>1</Certificate-Verify-Depth>
+
+  <!--Threshold: min.=2 max.=32 -->
+  <Receiver-Thread-Count>2</Receiver-Thread-Count>
+  <!--Threshold: min.=2 max.=32 -->
+  <Worker-Thread-Count>2</Worker-Thread-Count>
+  <!--This value should not 0. Timeout specified by milliseconds. -->
+  <CER-Timeout>5000</CER-Timeout>
+    
+<LogFile-Count>10</LogFile-Count>
+    <LogFile-Size>50</LogFile-Size> <!--MegaByte-->
+    <Logger>
+       <Module name="DEFAULT">
+          <Debug>false</Debug>
+          <Info>false</Info>
+          <Warning>false</Warning>
+          <Critical>true</Critical>
+          <Error>true</Error>
+          <OM>true</OM>
+       </Module>
+       <Module name="BASE">
+          <Debug>false</Debug>
+          <Info>false</Info>
+          <Warning>false</Warning>
+          <Critical>true</Critical>
+          <Error>true</Error>
+          <OM>true</OM>
+       </Module>
+       <Module name="PARSER">
+          <Debug>false</Debug>
+          <Info>false</Info>
+          <Warning>false</Warning>
+          <Critical>false</Critical>
+          <Error>false</Error>
+          <OM>false</OM>
+       </Module>
+       <Module name="AAA">
+          <Debug>false</Debug>
+          <Info>false</Info>
+          <Warning>false</Warning>
+          <Critical>true</Critical>
+          <Error>true</Error>
+          <OM>true</OM>
+       </Module>
+    </Logger>
+    <LogOutputs>
+        <Output Type="File">
+            <Debug>false</Debug>
+            <Info>false</Info>
+            <Warning>false</Warning>
+            <Critical>true</Critical>
+            <Error>true</Error>
+            <OM>true</OM>
+        </Output>
+        <Output Type="Console">
+            <Debug>false</Debug>
+            <Info>false</Info>
+            <Warning>false</Warning>
+            <Critical>true</Critical>
+            <Error>true</Error>
+            <OM>true</OM>
+        </Output>
+    </LogOutputs>
+</SystemConfig>

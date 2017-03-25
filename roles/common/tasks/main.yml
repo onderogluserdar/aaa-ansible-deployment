@@ -1,2 +1,20 @@
 ---
-# tasks file for common
+# Install python for ansible authorized_key update 
+
+- name: install epel repository
+  yum: name=epel-release state=present
+    
+- name: install python bindings for SELinux
+  yum: name={{item}} state=present
+  with_items:
+  - libselinux-python
+  - libsemanage-python
+
+- name: test to see if SELinux is running
+  command: getenforce
+  register: sestatus
+  changed_when: false
+    
+- name: Install my SSH public keys on Remote Servers
+  authorized_key: user=root state=present key="{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+    

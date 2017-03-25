@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<PeerConfig>
+{% for host in groups['ms'] %}
+    <Peer name="{{ hostvars[host]['inventory_hostname'] }}">
+        <Origin-Host-Name>{{ hostvars[host]['inventory_hostname'] }}.netas.com</Origin-Host-Name>
+        <Origin-Realm>{{ hostvars[host]['inventory_hostname'] }}.realm.netas.com</Origin-Realm>
+        <Remote-Address>aaa://{{ hostvars[host]['ansible_host'] }}:{{ tcp_port }};transport=tcp;protocol=diameter</Remote-Address>
+
+        <Peer-Group-Name></Peer-Group-Name>
+
+        <!--can be: - offline^M
+                - active^M
+                - passive    -->
+        <Maintenance-State>active</Maintenance-State>
+
+        <Vendor-Specific-Auth-Application-Id>^M
+                <Vendor-Id>18135</Vendor-Id>^M
+                <Application-Id>37391479</Application-Id>
+        </Vendor-Specific-Auth-Application-Id>
+  
+        <Connection-Timeout>0</Connection-Timeout>
+        <Reconnection-Timeout>10000</Reconnection-Timeout>
+        <Watchdog-Timeout>30000</Watchdog-Timeout>
+        <State-Machine-Timeout>30000</State-Machine-Timeout>
+        <Send-Message-Timeout>0</Send-Message-Timeout>
+        <Queue-Size-Limit>100000</Queue-Size-Limit>
+        <Database-Row-Id>120</Database-Row-Id>
+    </Peer>	
+{% endfor %}
+
+{% for host in groups['aaaservers'] %}
+    <Peer name="{{ hostvars[host]['inventory_hostname'] }}">
+        <Origin-Host-Name>{{ hostvars[host]['inventory_hostname'] }}.netas.com</Origin-Host-Name>
+        <Origin-Realm>{{ hostvars[host]['inventory_hostname'] }}.realm.netas.com</Origin-Realm>
+        <Remote-Address>aaa://{{ hostvars[host]['ansible_host'] }}:{{ tcp_port }};transport=tcp;protocol=diameter</Remote-Address>
+
+        <Peer-Group-Name></Peer-Group-Name>
+
+        <!--can be: - offline^M
+                - active^M
+                - passive    -->
+        <Maintenance-State>active</Maintenance-State>
+
+        <Vendor-Specific-Auth-Application-Id>^M
+                <Vendor-Id>10415</Vendor-Id>^M
+                <Application-Id>16777272</Application-Id>
+        </Vendor-Specific-Auth-Application-Id>
+  
+        <Connection-Timeout>0</Connection-Timeout>
+        <Reconnection-Timeout>10000</Reconnection-Timeout>
+        <Watchdog-Timeout>30000</Watchdog-Timeout>
+        <State-Machine-Timeout>30000</State-Machine-Timeout>
+        <Send-Message-Timeout>0</Send-Message-Timeout>
+        <Queue-Size-Limit>100000</Queue-Size-Limit>
+        <Database-Row-Id>120</Database-Row-Id>
+    </Peer>
+{% endfor %}
+</PeerConfig>

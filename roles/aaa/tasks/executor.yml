@@ -1,0 +1,29 @@
+---
+# AAA kill active process & start the latest load
+
+- name: check if AAA is running
+  command: pgrep drs
+  register: drs_pid
+  ignore_errors: yes
+
+#  - name: print aaa process ids 
+#    debug: msg="{{ drs_pid.stdout_lines }}"
+#    ignore_errors: yes
+
+#- name: message everybody logged to Servers
+#  command: wall *****AAA will be down in 30 seconds!***** 'beep'
+
+#- name: Pause 30 seconds
+#  pause: seconds=30
+
+- name: kill aaa processes
+  shell: pgrep drs | xargs kill -2
+  when: drs_pid|succeeded
+
+- name: start latest AAA 
+  shell: ./rundrs.sh &
+  args:
+    chdir: "{{ aaa_directory }}"
+
+#- name: message everybody logged to Servers
+#  command: wall *****AAA is online again!***** 'beep'

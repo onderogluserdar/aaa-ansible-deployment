@@ -1,0 +1,36 @@
+---
+- name: apply the common conf to all hosts
+  hosts: all
+  remote_user: root
+  become: yes
+
+  roles:
+  - common
+
+- name: Deploy AAA to machines
+  hosts: aaa
+  remote_user: root
+
+  roles:
+  - aaa
+
+- name: Generate Conf and Execute Servers
+  hosts: aaaservers
+  remote_user: root
+
+  roles:
+  - server 
+  
+- name: Generate Conf and Execute Proxies
+  hosts: aaaproxies
+  remote_user: root
+
+  roles:
+  - proxy
+
+- name: Deploy MS to machines
+  hosts: ms
+  remote_user: root
+
+  roles:
+  - ms

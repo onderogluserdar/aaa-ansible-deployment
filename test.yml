@@ -1,11 +1,32 @@
 
-- hosts: aaaservers
+- hosts: aaa
   name: Deployment
   gather_facts: no
   remote_user: root
   #strategy: debug
 
   tasks:
+
+    - name: retrieve bundle list from directory
+      local_action: find paths="roles/aaa/files" patterns="MS_*.tar.gz"
+      register: bundle
+
+    - debug: var={{ bundle.matched }}
+    - debug: var={{ bundle.examined }}
+    - debug: msg="{{ bundle.files.0.path | basename }}"
+
+    #- name: understanding parameter using 
+    #- debug: msg="{{ inventory_hostname }}"
+
+    #- debug: msg="{{ ansible_host }}"
+    #- name: generate SystemConfig from template and upload
+    #  template: src=SystemConfig.xml.j2 dest={{ aaa_directory }}/conf/SystemConfig.xml
+
+    #- name: generate PeerConfig from template and upload
+    #  template: src=PeerConfig.xml.j2 dest={{ aaa_directory }}/conf/PeerConfig.xml
+
+    #- name: generate AAAConfig from template and upload
+    #  template: src=AAAConfig.xml.j2 dest={{ aaa_directory }}/conf/AAAConfig.xml
 
 # Check if AAA is running
 
@@ -16,4 +37,5 @@
 
 #    - name: print aaa process ids 
 #      debug: msg="{{ isExist.stdout_lines }}"
+
 

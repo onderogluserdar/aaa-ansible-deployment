@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AAAConfiguration>
+
+<!-- AAA module will behave as definition of below for each peer -->
+<!-- AAAmodes : proxy or server -->
+   <AAAMode>{{ aaa_mode }}</AAAMode>
+   
+   <!--during session termination by AAA server, STR is required or not-->
+   <STR-Required>{{ str_required }}</STR-Required>
+  
+<!--Session Timeout-->
+   <SessionTimeout>20</SessionTimeout>
+
+   <HssRestoration>{{ hss_restoration }}</HssRestoration>
+ 
+   <OMCounter>1</OMCounter> <!--Minute-->
+   
+   <!--write origname of peers which AAA module will connect to-->
+   <Peers>
+   {% for host in groups['aaaproxies'] %}
+      <AAA-Proxy>{{ hostvars[host]['inventory_hostname'] }}.netas.com</AAA-Proxy>
+   {% endfor %}
+   </Peers>
+</AAAConfiguration>
+ 
+
+
+
+
+

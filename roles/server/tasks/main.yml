@@ -1,0 +1,18 @@
+---
+# Generate conf files which specific for each server and upload
+- block:
+  - name: generate SystemConfig from template and upload
+    template: src=SystemConfig.xml.j2 dest={{ aaa_directory }}/conf/SystemConfig.xml
+
+  - name: generate PeerConfig from template and upload
+    template: src=PeerConfig.xml.j2 dest={{ aaa_directory }}/conf/PeerConfig.xml
+
+  - name: generate AAAConfig from template and upload
+    template: src=AAAConfig.xml.j2 dest={{ aaa_directory }}/conf/AAAConfig.xml
+  when: freshConf == true
+
+- name: call server and proxy roles to generate their conf files 
+  include_role:
+    name: aaa
+    tasks_from: executor.yml
+

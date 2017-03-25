@@ -1,0 +1,79 @@
+---
+# Delete existing required folders to prevent any errors
+
+- file: path={{ temp_dir }} state=absent
+- file: path={{ aaa_directory }} state=absent
+
+# Backup old files
+
+- name: backup previous load conf files
+  command: cp -a {{ aaa_directory }}/conf {{ conf_backup_dir }}
+  ignore_errors: yes
+  register: isExist
+
+- set_fact: freshConf=true
+
+# AAA bundle upload operations 
+
+- name: create temp directory
+  file: path={{ temp_dir }} state=directory
+
+- name: retrieve bundle list from directory
+  local_action: find paths="roles/aaa/files" patterns="MS_*.tar.gz"
+  register: bundle
+
+#- name: upload bundle
+#  copy: src={{ bundle.files.0.path }} dest={{ temp_dir }}
+
+- name: copy bundle to {{ temp_dir }} it is a temp task to prevent upload file from home
+  command: cp -fu /tmp/{{ bundle.files.0.path | basename }} {{ temp_dir }}
+
+- name: create aaa directory
+  file: path={{ aaa_directory }} state=directory
+
+- name: unarchive bundle file
+  unarchive: src={{ temp_dir }}/{{ bundle.files.0.path | basename }} dest={{ temp_dir }} remote_src=True
+   
+- name: retrieve AAA tar name
+  find: paths="{{ temp_dir }}" patterns="drs_*.tar.gz"
+  register: aaafile
+
+- name: unarchive AAA file
+  unarchive: src={{ aaafile.files.0.path }} dest={{ aaa_directory }} remote_src=True
+
+- name: delete temp directory
+  file: path={{ temp_dir }} state=absent
+
+
+# Recover backup Conf files
+
+- block:
+    - name: recover backup conf files
+      command: cp -a {{ conf_backup_dir }} {{ aaa_directory }}/conf
+
+    - name: remove backup file
+      file: path={{ conf_backup_dir }} state=absent
+
+    - set_fact: freshConf=false
+  when: isExist|succeeded
+  
+
+- debug: var=freshConf
+
+# Generate conf files which specific for each server and upload
+
+
+#- block:
+#    - name: call server and proxy roles to generate their conf files 
+#      include_role:
+#        name: server
+
+#    - name: call server and proxy roles to generate their conf files 
+#      include_role:
+#        name: proxy
+#  when: isExist|failed
+
+
+# Generate conf files which specific for each server and upload
+
+#- include: executor.yml
