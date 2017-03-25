@@ -1,0 +1,15 @@
+[aaaservers]
+aaaserver ansible_host=10.45.0.7
+
+[aaaproxies]
+aaaproxy ansible_host=10.45.0.8
+
+[aaa:children]
+aaaservers
+aaaproxies
+
+[ms]
+ms ansible_host=10.45.0.9
+
+[test]
+testenv ansible_host=10.45.0.10
