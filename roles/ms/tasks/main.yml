@@ -1,2 +1,56 @@
 ---
-# tasks file for ms
+# Delete existing required folders to prevent any errors
+
+- file: path={{ temp_dir }} state=absent
+- file: path={{ ms_directory }} state=absent
+
+# Backup db
+
+- name: backup previous load conf files
+  command: cp  ~/*.db {{ db_backup_dir }}
+  ignore_errors: yes
+  register: isExist
+
+- set_fact: freshConf=true
+
+# Management Server bundle upload operations 
+
+- name: create temp directory
+  file: path={{ temp_dir }} state=directory
+
+- name: retrieve bundle list from directory
+  local_action: find paths="roles/aaa/files" patterns="MS_*.tar.gz"
+  register: bundle
+
+#- name: upload bundle
+#  copy: src={{ bundle.files.0.path }} dest={{ temp_dir }}
+
+- name: copy bundle to {{ temp_dir }} it is a temp task to prevent upload file from home
+  command: cp -fu /tmp/{{ bundle.files.0.path | basename }} {{ temp_dir }}
+
+- name: create ms directory
+  file: path={{ ms_directory }} state=directory
+
+- name: unarchive bundle file
+  unarchive: src={{ temp_dir }}/{{ bundle.files.0.path | basename }} dest={{ temp_dir }} remote_src=True
+
+- name: delete temp directory
+  file: path={{ temp_dir }} state=absent
+
+
+# Recover backup db data
+
+- block:
+    - name: recover backup db data
+      command: cp -a {{ db_backup_dir }} ~/
+
+    - name: remove backup file
+      file: path={{ db_backup_dir }} state=absent
+
+    - set_fact: freshConf=false
+  when: isExist|succeeded
+  
+
+- debug: var=freshConf
+
+- include: createdb.yml

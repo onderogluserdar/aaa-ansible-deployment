@@ -1,0 +1,10 @@
+---
+# Generate db with AAA Server/Proxy data 
+#- block:
+#  - name: generate SystemConfig from template and upload
+#    template: src=SystemConfig.xml.j2 dest={{ aaa_directory }}/conf/SystemConfig.xml
+
+#  when: freshConf == true
+
+
+-include: executor.yml

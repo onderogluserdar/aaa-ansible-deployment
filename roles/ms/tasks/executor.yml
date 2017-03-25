@@ -1,0 +1,29 @@
+---
+# AAA kill active process & start the latest load
+
+- name: check if MS is running
+  command: pgrep java
+  register: ms_pid
+  ignore_errors: yes
+
+#  - name: print aaa process ids 
+#    debug: msg="{{ drs_pid.stdout_lines }}"
+#    ignore_errors: yes
+
+#- name: message everybody logged to Servers
+#  command: wall *****AAA will be down in 30 seconds!***** 'beep'
+
+#- name: Pause 30 seconds
+#  pause: seconds=30
+
+- name: kill aaa processes
+  shell: pgrep java | xargs kill -2
+  when: ms_pid|succeeded
+
+- name: start latest  
+  shell: nohup AAAManagementServer-0.0.1-SNAPSHOT.jar --localip={{ ansible_host }} --localport=3868 &
+  args:
+    chdir: "{{ ms_directory }}"
+
+#- name: message everybody logged to Servers
+#  command: wall *****AAA is online again!***** 'beep'
