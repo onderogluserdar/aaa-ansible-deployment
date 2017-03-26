@@ -1,5 +1,5 @@
 
-- hosts: aaa
+- hosts: ms
   name: Deployment
   gather_facts: no
   remote_user: root
@@ -7,13 +7,21 @@
 
   tasks:
 
-    - name: retrieve bundle list from directory
-      local_action: find paths="roles/aaa/files" patterns="MS_*.tar.gz"
-      register: bundle
+  - name: retrieve bundle list from directory
+    local_action: find paths="/roles"
+    register: bundle
 
-    - debug: var={{ bundle.matched }}
-    - debug: var={{ bundle.examined }}
-    - debug: msg="{{ bundle.files.0.path | basename }}"
+#- name: upload bundle
+#  copy: src={{ bundle.files.0.path }} dest={{ temp_dir }}
+  - debug: msg="{{ bundle }}"
+
+    #- name: retrieve bundle list from directory
+    #  local_action: find paths="roles/aaa/files" patterns="MS_*.tar.gz"
+    #  register: bundle
+
+    #- debug: var={{ bundle.matched }}
+    #- debug: var={{ bundle.examined }}
+    #- debug: msg="{{ bundle.files.0.path | basename }}"
 
     #- name: understanding parameter using 
     #- debug: msg="{{ inventory_hostname }}"

@@ -1,0 +1,31 @@
+---
+- name: create java directory
+  file: path={{ java_folder }} state=directory
+
+- name: Download Java
+  command: "wget -q -O {{ java_archive }} --no-check-certificate --no-cookies --header 'Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie' {{download_url}} "
+
+- name: unarchive bundle file
+  unarchive: src={{ java_archive }} dest={{ java_folder }} remote_src=True
+  #unarchive: src={{ playbook_dir }}/roles/ms/files/{{ java_name }} dest={{ java_folder }}
+
+- name: set links
+  file: src={{ jdk_folder }} dest={{ java_folder }}/latest state=link
+
+- name: set links
+  file: src={{ java_folder }}/latest dest={{ java_folder }}/default state=link
+
+- name: Make Java available for system
+  command: 'alternatives --install "/usr/bin/java" "java" "{{ jdk_folder }}/bin/java" 2000'
+
+- name: Export JAVA_HOME variable to .bashrc
+  shell: echo export JAVA_HOME={{ java_folder }}/default >> ~/.bashrc
+
+- name: Export JRE_HOME variable to .bashrc
+  shell: echo export JRE_HOME={{ jdk_folder }}/jre >> ~/.bashrc
+
+- name: Update PATH variable
+  shell: echo export PATH=$PATH:{{ jdk_folder }}/bin:/opt/jdk1.8.0_121/jre/bin >> ~/.bashrc
+
+- name: Clean up
+  file: state=absent path={{ java_archive }}

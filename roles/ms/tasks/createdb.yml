@@ -1,10 +1,8 @@
 ---
-# Generate db with AAA Server/Proxy data 
-#- block:
-#  - name: generate SystemConfig from template and upload
-#    template: src=SystemConfig.xml.j2 dest={{ aaa_directory }}/conf/SystemConfig.xml
+# Upload test db to server
 
-#  when: freshConf == true
+- name: Upload test db to remote server
+  copy: src={{ playbook_dir }}/roles/ms/files/aaa_orm.mv.db dest=/root
+  when: freshConf == true
 
-
--include: executor.yml
+- include: executor.yml

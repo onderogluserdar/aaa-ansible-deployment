@@ -3,11 +3,15 @@
 
 - file: path={{ temp_dir }} state=absent
 - file: path={{ ms_directory }} state=absent
+- file: path={{ db_backup_dir }} state=absent
 
 # Backup db
 
+- name: create db backup directory
+  file: path={{ db_backup_dir }} state=directory
+
 - name: backup previous load conf files
-  command: cp  ~/*.db {{ db_backup_dir }}
+  shell: cp  ~/*.db {{ db_backup_dir }}
   ignore_errors: yes
   register: isExist
 
@@ -19,7 +23,7 @@
   file: path={{ temp_dir }} state=directory
 
 - name: retrieve bundle list from directory
-  local_action: find paths="roles/aaa/files" patterns="MS_*.tar.gz"
+  local_action: find paths="{{ playbook_dir }}/roles/aaa/files" patterns="MS_*.tar.gz"
   register: bundle
 
 #- name: upload bundle
@@ -32,7 +36,7 @@
   file: path={{ ms_directory }} state=directory
 
 - name: unarchive bundle file
-  unarchive: src={{ temp_dir }}/{{ bundle.files.0.path | basename }} dest={{ temp_dir }} remote_src=True
+  unarchive: src={{ temp_dir }}/{{ bundle.files.0.path | basename }} dest={{ ms_directory }} remote_src=True
 
 - name: delete temp directory
   file: path={{ temp_dir }} state=absent
@@ -49,8 +53,9 @@
 
     - set_fact: freshConf=false
   when: isExist|succeeded
-  
 
-- debug: var=freshConf
+- file: path={{ db_backup_dir }} state=absent  
+
+#- debug: var=freshConf
 
 - include: createdb.yml

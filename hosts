@@ -10,6 +10,3 @@ aaaproxies
 
 [ms]
 ms ansible_host=47.168.59.217
-
-[test]
-testenv ansible_host=47.168.59.207

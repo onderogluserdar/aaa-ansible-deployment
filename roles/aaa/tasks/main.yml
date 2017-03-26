@@ -3,8 +3,12 @@
 
 - file: path={{ temp_dir }} state=absent
 - file: path={{ aaa_directory }} state=absent
+- file: path={{ conf_backup_dir }} state=absent
 
 # Backup old files
+
+- name: create conf backup directory
+  file: path={{ conf_backup_dir }} state=directory
 
 - name: backup previous load conf files
   command: cp -a {{ aaa_directory }}/conf {{ conf_backup_dir }}
@@ -19,7 +23,7 @@
   file: path={{ temp_dir }} state=directory
 
 - name: retrieve bundle list from directory
-  local_action: find paths="roles/aaa/files" patterns="MS_*.tar.gz"
+  local_action: find paths="{{ playbook_dir }}/roles/aaa/files" patterns="MS_*.tar.gz"
   register: bundle
 
 #- name: upload bundle
@@ -57,8 +61,9 @@
     - set_fact: freshConf=false
   when: isExist|succeeded
   
+- file: path={{ conf_backup_dir }} state=absent
 
-- debug: var=freshConf
+#- debug: var=freshConf
 
 # Generate conf files which specific for each server and upload
 
