@@ -1,8 +1,13 @@
 ---
 # Upload test db to server
+- block:
+   - name: Upload test db to remote server
+     copy: src={{ playbook_dir }}/roles/ms/files/aaa_orm.mv.db dest={{ ansible_env.HOME }}
+     when: ansible_host !="10.45.0.9"
 
-- name: Upload test db to remote server
-  copy: src={{ playbook_dir }}/roles/ms/files/aaa_orm.mv.db dest=/root
+   - name: Upload test db to remote server
+     copy: src={{ playbook_dir }}/roles/ms/files/staging/aaa_orm.mv.db dest={{ ansible_env.HOME }}
+     when: ansible_host =="10.45.0.9"
   when: freshConf == true
 
 - include: executor.yml

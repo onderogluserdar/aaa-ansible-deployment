@@ -10,3 +10,6 @@ aaaproxies
 
 [ms]
 ms ansible_host=47.168.59.217
+
+[all:vars]
+ansible_user=root

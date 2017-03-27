@@ -7,13 +7,12 @@
 
   tasks:
 
-  - name: retrieve bundle list from directory
-    local_action: find paths="/roles"
-    register: bundle
+  #- name: retrieve bundle list from directory
+  #  local_action: find paths="/roles"
+  #  register: bundle
 
 #- name: upload bundle
 #  copy: src={{ bundle.files.0.path }} dest={{ temp_dir }}
-  - debug: msg="{{ bundle }}"
 
     #- name: retrieve bundle list from directory
     #  local_action: find paths="roles/aaa/files" patterns="MS_*.tar.gz"

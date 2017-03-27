@@ -26,11 +26,11 @@
   local_action: find paths="{{ playbook_dir }}/roles/aaa/files" patterns="MS_*.tar.gz"
   register: bundle
 
-#- name: upload bundle
-#  copy: src={{ bundle.files.0.path }} dest={{ temp_dir }}
+- name: upload bundle
+  copy: src={{ bundle.files.0.path }} dest={{ temp_dir }}
 
-- name: copy bundle to {{ temp_dir }} it is a temp task to prevent upload file from home
-  command: cp -fu /tmp/{{ bundle.files.0.path | basename }} {{ temp_dir }}
+#- name: copy bundle to {{ temp_dir }} it is a temp task to prevent upload file from home
+#  command: cp -fu /tmp/{{ bundle.files.0.path | basename }} {{ temp_dir }}
 
 - name: create aaa directory
   file: path={{ aaa_directory }} state=directory

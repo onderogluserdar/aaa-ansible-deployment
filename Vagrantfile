@@ -11,6 +11,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |cluster|
 
   # Every Vagrant virtual environment requires a box to build off of.
 
+
 cluster.vm.define "controller-node" do |config|
   config.vm.box = "centos/7"
   config.ssh.insert_key = false
@@ -67,6 +68,7 @@ cluster.vm.define "node-ms" do |config|
   end
   config.vm.hostname = "node-ms"
   config.vm.network :private_network, ip: "10.45.0.9"
+  config.vm.network "forwarded_port", guest: 8080, host: 8080
 end
 
 
