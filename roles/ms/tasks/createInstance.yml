@@ -1,0 +1,40 @@
+---
+# Upload test db to server
+#- block:
+#   - name: Upload test db to remote server
+#     copy: src={{ playbook_dir }}/roles/ms/files/aaa_orm.mv.db dest={{ ansible_env.HOME }}
+#     when: ansible_host !="10.45.0.9"
+
+#   - name: Upload test db to remote server
+#     copy: src={{ playbook_dir }}/roles/ms/files/staging/aaa_orm.mv.db dest={{ ansible_env.HOME }}
+#     when: ansible_host =="10.45.0.9"
+#  when: freshConf == true
+
+- name: wait for 8080 port to be started
+  wait_for:
+    port: 8080
+    state: started
+
+- name: Login to MS
+  uri:
+    url: http://{{ ansible_host }}:8080/login?username=demo&password=demo
+    method: POST
+    body: "username=demo&password=demo"
+    status_code: 302
+    headers:
+      Content-Type: "application/json"
+  register: login
+
+- name: Send AddInstance Request to MS
+  uri:
+    url: http://{{ ansible_host }}:8080/instances
+    method: POST
+    status_code: 200
+    body_format: json
+    body: "{{ lookup('file','{{ item }}') }}"
+    headers:
+      Content-Type: "application/json"
+      Cookie: "{{login.set_cookie}}"
+  with_fileglob:
+    - "roles/ms/files/*.json"
+

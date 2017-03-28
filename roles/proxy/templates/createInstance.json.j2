@@ -1,0 +1,173 @@
+{
+   "name":"{{ inventory_hostname }}",
+   "description":"{{ inventory_hostname }} instance",
+   "user":"root",
+   "password":"drs1234",
+   "address":"{{ ansible_host }}",
+         "loadName":"drs_20170313_133047_864bfc8cb07.tar.gz",
+   "sysconfig":{
+      "name":"{{ inventory_hostname }}",
+      "originHostName":"{{ inventory_hostname }}.netas.com",
+      "originRealm":"{{ inventory_hostname }}.realm.netas.com",
+      "maintenanceStatus":"offline",
+      "accountApplications":[],
+      "authenticationApplications":[],
+      "vendorAccountApplications":[],
+      "vendorAuthenticationApplications":[],
+      "transport":[
+         {
+            "name":"tr-tcp1",
+            "base":"aaa",
+            "address":"{{ ansible_host }}",
+            "port":"{{ tcp_port }}",
+            "protocol":"tcp",
+            "transport":"tcp",
+            "secure":false,
+            "listenEnabled":true
+         },
+         {
+            "name":"tr-sctp1",
+            "base":"aaa",
+            "address":"{{ ansible_host }}",
+            "port":"{{ sctp_port }}",
+            "protocol":"sctp",
+            "transport":"tcp",
+            "secure":false,
+            "listenEnabled":true
+         },
+         {
+            "name":"tr-udp1",
+            "base":"aaa",
+            "address":"{{ ansible_host }}",
+            "port":"{{ udp_port }}",
+            "protocol":"udp",
+            "transport":"tcp",
+            "secure":false,
+            "listenEnabled":true
+         },
+         {
+            "name":"tr-tls1",
+            "base":"aaa",
+            "address":"{{ ansible_host }}",
+            "port":"{{ tls_port }}",
+            "protocol":"tcp",
+            "transport":"tcp",
+            "secure":true,
+            "listenEnabled":true
+         }
+      ],
+      "productName":"Netas_DRS",
+      "vendorId":18135,
+      "certificatePath":"data/cert.pem",
+      "privateKeyPath":"data/pk.pem",
+      "caPath":"data/ca.pem",
+      "certificateVerifyDepth":1,
+      "receiverThreadCount":2,
+      "workerThreadCount":2,
+      "cerTimeout":5000,
+      "logFileCount":10,
+      "logFileSize":50,
+      "supportedVendors":[],
+      "modules":[
+         {
+            "debug":false,
+            "info":false,
+            "warning":false,
+            "error":true,
+            "om":true,
+            "critical":true,
+            "moduleName":"DEBUG",
+            "level":0
+         },
+         {
+            "debug":false,
+            "info":false,
+            "warning":false,
+            "error":true,
+            "om":true,
+            "critical":true,
+            "moduleName":"BASE",
+            "level":0
+         },
+         {
+            "debug":false,
+            "info":false,
+            "warning":false,
+            "error":false,
+            "om":false,
+            "critical":false,
+            "moduleName":"PARSER",
+            "level":0
+         },
+         {
+            "debug":false,
+            "info":false,
+            "warning":false,
+            "error":true,
+            "om":true,
+            "critical":true,
+            "moduleName":"AAA",
+            "level":0
+         }
+      ],
+      "outputs":[
+         {
+            "debug":true,
+            "info":true,
+            "warning":true,
+            "error":true,
+            "om":true,
+            "critical":true,
+            "type":"File"
+         },
+         {
+            "debug":true,
+            "info":true,
+            "warning":true,
+            "error":true,
+            "om":true,
+            "critical":true,
+            "type":"Console"
+         }
+      ]
+   },
+   "peerList":[
+         {% for host in groups['aaaservers'] %}
+      {
+         "name":"{{ hostvars[host]['inventory_hostname'] }}",
+         "originHostName":"{{ hostvars[host]['inventory_hostname'] }}.netas.com",
+         "originRealm":"{{ hostvars[host]['inventory_hostname'] }}.realm.netas.com",
+         "maintenanceStatus":"active",
+         "accountApplications":[],
+         "authenticationApplications":[],
+         "vendorAccountApplications":[],
+         "vendorAuthenticationApplications":[],
+         "transport":[
+            {
+               "name":"as",
+               "base":"aaa",
+               "address":"{{ hostvars[host]['ansible_host'] }}",
+               "port":"{{ tcp_port }}",
+               "protocol":"diameter",
+               "transport":"tcp",
+               "secure":false,
+               "listenEnabled":true
+            }
+         ],
+         "port":30050,
+         "secure":false,
+         "transportName":"",
+         "peerGroupName":null,
+         "connectionTimeout":0,
+         "reconnectionTimeout":10000,
+         "watchdogTimeout":30000,
+         "stateMachineTimeout":30000,
+         "sendMessageTimeout":0,
+         "queueSizeLimit":100000,
+         "databaseRowId":null
+      }{% if not loop.last %}
+    ,
+      {% endif %}   
+         {% endfor %}
+   ]
+}

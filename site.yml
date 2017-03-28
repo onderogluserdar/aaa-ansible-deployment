@@ -6,13 +6,6 @@
   roles:
   - common
 
-- name: Deploy MS to machines
-  hosts: ms
-  become: yes
-
-  roles:
-  - ms
-
 - name: Deploy AAA to machines
   hosts: aaa
   become: yes
@@ -33,4 +26,11 @@
 
   roles:
   - proxy
+
+- name: Deploy MS to machines
+  hosts: ms
+  become: yes
+
+  roles:
+  - ms
 

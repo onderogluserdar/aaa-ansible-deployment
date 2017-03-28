@@ -5,6 +5,8 @@
   command: pgrep java
   register: ms_pid
   ignore_errors: yes
+  tags:
+     - reset
 
 #  - name: print aaa process ids 
 #    debug: msg="{{ drs_pid.stdout_lines }}"
@@ -19,7 +21,9 @@
 - name: kill ms processes
   shell: pgrep java | xargs kill -9
   when: ms_pid|succeeded
-
+  tags:
+     - reset
+     
 - name: start latest  
   shell: nohup java -jar -Djava.library.path=/{{ ms_directory }}/lib AAAManagementServer-0.0.1-SNAPSHOT.jar  --localip={{ ansible_host }} --localport=3868 &
   args:
@@ -27,3 +31,5 @@
 
 #- name: message everybody logged to Servers
 #  command: wall *****AAA is online again!***** 'beep'
+
+- include: createInstance.yml

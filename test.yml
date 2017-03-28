@@ -7,6 +7,82 @@
 
   tasks:
 
+    - name: print json files
+      local_action: command cat {{ item }}
+      with_fileglob:
+        - "roles/ms/files/*.json"
+
+
+    - name: Login to MS
+      uri:
+        url: http://{{ ansible_host }}:8080/login?username=demo&password=demo
+        method: POST
+        body: "username=demo&password=demo"
+        status_code: 302
+        headers:
+          Content-Type: "application/json"
+      register: login
+
+    - name: Send AddInstance Request to MS
+      uri:
+        url: http://{{ ansible_host }}:8080/instances
+        method: POST
+        status_code: 200
+        body_format: json
+        #body: "{{ item }}"
+        body: "{{ lookup('file','{{ item }}') }}"
+        headers:
+          Content-Type: "application/json"
+          Cookie: "{{login.set_cookie}}"
+      with_fileglob:
+        - "roles/ms/files/*.json"
+
+
+    #- name: find json files under dir roles/ms/files
+    #  local_action: find paths="roles/ms/files" patterns="*.json" recurse=yes
+    #  register: fileList
+    
+    #- debug: 
+    #    msg: "{{ item }}"
+    #  with_fileglob:
+    #    - "roles/ms/files/*.json"
+
+    #- name: create conf backup directory
+    #  file: path={{ conf_backup_dir }} state=directory
+    #  become: yes
+
+    #- name: backup previous load conf files
+    #  command: cp -a {{ aaa_directory }}/conf {{ conf_backup_dir }}
+    #  become: yes
+      #ignore_errors: yes
+    #  register: isExist
+
+    #- uri:
+    #    url: http://{{ ansible_host }}:8080/login?username=demo&password=demo
+    #    method: POST
+    #    body: "username=demo&password=demo"
+    #    status_code: 302
+    #    headers:
+    #      Content-Type: "application/json"
+    #  register: login
+
+    #- debug: msg="{{  login }}"
+
+    #- uri:
+    #    url: http://{{ ansible_host }}:8080/instances
+    #    method: POST
+    #    #return_content: yes
+    #    #force_basic_auth: yes
+    #    status_code: 200
+    #    body_format: json
+    #    body: "{{ lookup('file','body.json') }}"
+    #    headers:
+    #      Content-Type: "application/json"
+    #      Cookie: "{{login.set_cookie}}"
+    #  register: login
+
+    #- debug: msg="{{  login }}"
+
   #- name: retrieve bundle list from directory
   #  local_action: find paths="/roles"
   #  register: bundle

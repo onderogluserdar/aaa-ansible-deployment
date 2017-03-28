@@ -2,17 +2,25 @@
 # Delete existing required folders to prevent any errors
 
 - file: path={{ temp_dir }} state=absent
+  tags:
+     - reset
 - file: path={{ aaa_directory }} state=absent
+  tags:
+     - reset
 - file: path={{ conf_backup_dir }} state=absent
-
+  tags:
+     - reset
+     
 # Backup old files
 
 - name: create conf backup directory
   file: path={{ conf_backup_dir }} state=directory
+  become: yes
 
 - name: backup previous load conf files
-  command: cp -a {{ aaa_directory }}/conf {{ conf_backup_dir }}
+  command: cp -a {{ aaa_directory }}/conf/. {{ conf_backup_dir }}
   ignore_errors: yes
+  become: yes
   register: isExist
 
 - set_fact: freshConf=true
@@ -53,7 +61,7 @@
 
 - block:
     - name: recover backup conf files
-      command: cp -a {{ conf_backup_dir }} {{ aaa_directory }}/conf
+      command: cp -a {{ conf_backup_dir }}/. {{ aaa_directory }}/conf
 
     - name: remove backup file
       file: path={{ conf_backup_dir }} state=absent

@@ -9,6 +9,9 @@
 
   - name: generate AAAConfig from template and upload
     template: src=AAAConfig.xml.j2 dest={{ aaa_directory }}/conf/AAAConfig.xml
+
+  - name: generate json
+    local_action: template src=createInstance.json.j2 dest=roles/ms/files/createInstance_{{ inventory_hostname }}.json
   when: freshConf == true
 
 - name: call server and proxy roles to generate their conf files 
