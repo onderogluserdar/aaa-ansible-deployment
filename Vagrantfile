@@ -63,7 +63,7 @@ cluster.vm.define "node-ms" do |config|
   config.vm.box = "onderogluserdar/aaa-devbox-cent7"
   config.ssh.insert_key = false
   config.vm.provider :virtualbox do |vb, override|
-    vb.customize ["modifyvm", :id, "--memory", "256"]
+    vb.customize ["modifyvm", :id, "--memory", "1024"]
     vb.customize ["modifyvm", :id, "--cpus", "1"]
   end
   config.vm.hostname = "node-ms"
