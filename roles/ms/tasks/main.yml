@@ -1,23 +1,23 @@
 ---
 # Delete existing required folders to prevent any errors
 
-- file: path={{ temp_dir }} state=absent
-  tags:
-     - reset
-- file: path={{ ms_directory }} state=absent
-  tags:
-     - reset
-- file: path={{ db_backup_dir }} state=absent
-  tags:
-     - reset
+#- file: path={{ temp_dir }} state=absent
+#  tags:
+#     - reset
+#- file: path={{ ms_directory }} state=absent
+#  tags:
+#     - reset
+#- file: path={{ db_backup_dir }} state=absent
+#  tags:
+#     - reset
 
 # Backup db
 
-- name: create db backup directory
-  file: path={{ db_backup_dir }} state=directory
+#- name: create db backup directory
+#  file: path={{ db_backup_dir }} state=directory
 
 - name: backup previous load conf files
-  shell: cp  ~/*.db {{ db_backup_dir }}
+  command: cp  ~/*.db {{ db_backup_dir }}
   ignore_errors: yes
   register: isExist
 

@@ -17,9 +17,12 @@
    
    <!--write origname of peers which AAA module will connect to-->
    <Peers>
-   {% for host in groups['aaaservers'] %}
-      <AAA-Server>{{ hostvars[host]['inventory_hostname'] }}.netas.com</AAA-Server>
-   {% endfor %}
+{% for host in groups['aaaservers'] %}
+   <AAA-Server>{{ hostvars[host]['inventory_hostname'] }}.netas.com</AAA-Server>
+{% endfor %}
+{% for host in peerList %}
+   <{{ host.type }}>{{ host.name }}.netas.com</{{ host.type }}>
+{% endfor %}
    </Peers>
 </AAAConfiguration>
  

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<testsuite name="Diameter AAA Test Suite">
+
+<Global variables="aaa_fqdn"/> 
+
+	<nop>
+		<action>
+			<logscr message="Test-suite [ts_name] is starting..."/> 
+			<logscr message="HSS IP : [hss_ip] "/>
+			<logscr message="HSS Port : [hss_port] "/>
+			<logscr message="ePDG IP : [epdg_ip] "/>
+			<logscr message="ePDG Port : [epdg_port] "/>
+			<logscr message="PDN IP : [pdn_ip] "/>
+			<logscr message="PDN Port : [pdn_port] "/>
+			<logscr message="AAA IP : [aaa_ip] "/>
+			<logscr message="AAA Port : [aaa_port] "/>
+			<assign assign_to="aaa_fqdn" value="[aaa_ip]:[aaa_port]"/>
+		</action>
+	</nop>
+
+	<!-- Parallel execution -->
+	<run mode="all">
+		<testcase name="1. Diameter Basic Authentication Test Case" active="true" file="testcase/tc1_authentication.xml" exit_on_fail="true"/>
+	</run>	
+
+	<nop>
+		<action>
+			<logscr message="Test-suite [ts_name] is completed with success list:[ts_succ_list] and failed list:[ts_fail_list]"/>
+		</action>
+	</nop>
+	
+</testsuite>

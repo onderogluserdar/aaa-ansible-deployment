@@ -20,6 +20,9 @@
    {% for host in groups['aaaproxies'] %}
       <AAA-Proxy>{{ hostvars[host]['inventory_hostname'] }}.netas.com</AAA-Proxy>
    {% endfor %}
+   {% for host in peerList %}
+   <{{ host.type }}>{{ host.name }}.netas.com</{{ host.type }}>
+   {% endfor %}
    </Peers>
 </AAAConfiguration>
  

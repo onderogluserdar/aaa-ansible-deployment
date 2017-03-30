@@ -1,0 +1,21 @@
+key=userimsi=200010001000021,\
+	userdomain=wlan.mnc001.mcc200.3gppnetwork.org,\
+	firsteap=02000038013032303030313030303130303030323140776c616e2e6d6e633030312e6d63633230302e336770706e6574776f726b2e6f7267,\
+	secondeap=02010028170100000b05000004c6773c785f122d52dddcbeec17f79a030300402282f3a6fd65c21c,\
+	swmId=16777264,\
+	swxId=16777265,\
+	s6bId=16777272,\
+	originhost=netas.com,\
+	originrealm=realm.netas.com,\
+{% for host in peerList %}
+{% if host.type == 'HSS' %}
+hss_ip={{ hostvars['testenv']['ansible_host'] }},hss_port={{ host.port }},\
+{% endif %}
+{% if host.type == 'ePDG' %}
+epdg_ip={{ hostvars['testenv']['ansible_host'] }},epdg_port={{ host.port }},\
+{% endif %}
+{% if host.type == 'PDN' %}
+pdn_ip={{ hostvars['testenv']['ansible_host'] }},pdn_port={{ host.port }},\
+{% endif %}
+{% endfor %}
+aaa_ip={{ hostvars['aaaproxy']['ansible_host'] }},aaa_port={{ tcp_port }}

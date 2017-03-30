@@ -34,3 +34,11 @@
   roles:
   - ms
 
+- name: Deploy Test Environment
+  hosts: test
+  become: yes
+
+  roles:
+  - test
+
+

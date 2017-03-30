@@ -2,10 +2,6 @@
 aaa_directory: /var/aaa
 conf_backup_dir: /var/conf_backup
 temp_dir: /tmp/aaa
-tcp_port: 3868
-tls_port: 5658
-udp_port: 1812
-sctp_port: 3868
 
 str_required: true
 hss_restoration: 0

@@ -1,0 +1,10 @@
+---
+tcp_port: 3868
+tls_port: 5658
+udp_port: 1812
+sctp_port: 3868
+
+peerList: 
+  - {name: "ePDG", port: "3870", type: "ePDG"}
+  - {name: "HSS",  port: "3871", type: "HSS"}
+  - {name: "PDN",  port: "3872", type: "PDN"}

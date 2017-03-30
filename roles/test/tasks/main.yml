@@ -1,2 +1,24 @@
 ---
-# tasks file for test
+- name: generate parameter file for AAAServer
+  local_action: template src=params{{ item }}.j2 dest=roles/test/files/{{ item }}/cf/params
+  with_items:
+    - server
+    - proxy
+
+- name: upload bundle
+  copy: src=roles/test/files/{{ item }} dest=/opt/
+  with_items:
+    - server
+    - proxy
+
+- name: set chmod +x runTest
+  shell: chmod +x /opt/{{ item }}/runtest.sh
+  with_items:
+    - server
+    - proxy
+
+- name: run tests
+  shell: ./runtest.sh
+  args:
+    chdir: /opt/server/
+ 

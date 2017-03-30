@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE scenario SYSTEM "sipp.dtd">
+
+<scenario name="CER-CEA">
+<!--  Avp-Name(AvpCode, AvpFlags, AvpVendorID, AvpDataType):"Avp Data"  --> 	
+  <send_diameter>
+  	<![CDATA[
+  		<CER> : < Diameter Header: 257, REQ>
+      Origin-Host(264, M, 0, OctetString):"[$componentName].[originhost]"
+      Origin-Realm(296, M, 0, OctetString):"[$componentName].[originrealm]"
+      Host-IP-Address(257, M, 0, Address):"[local_ip]"
+      Vendor-Id(266, M, 0, Integer32):"10415"
+      Product-Name(269, , 0, OctetString):"Netas [$componentName]"
+      Supported-Vendor-Id(265, M, 0, Integer32):"10415"
+      Vendor-Specific-Application-Id(260, M, 0, Grouped):{
+         Vendor-Id(266, M, 0, Integer32):"10415"
+         Auth-Application-Id(258, M, 0, Integer32):"16777264"
+      }
+      Vendor-Specific-Application-Id(260, M, 0, Grouped):{
+         Vendor-Id(266, M, 0, Integer32):"10415"
+         Auth-Application-Id(258, M, 0, Integer32):"16777250"
+      }
+      Vendor-Specific-Application-Id(260, M, 0, Grouped):{
+         Vendor-Id(266, M, 0, Integer32):"10415"
+         Auth-Application-Id(258, M, 0, Integer32):"16777272"
+      }
+      Firmware-Revision(267, , 0, Unsigned32):"1"
+  	]]>
+  </send_diameter>
+  
+   <recv_diameter name="CEA">
+   <action>
+   <!--    <avp name="Product-Name" assign_to="testvar"/>  -->
+   <!--    <ereg regexp="Result-Code" search_in="body" assign_to="testvar"/>
+	   <logscr message="******************************Received 257 with Result-Code: [$testvar]"/>  -->
+	</action>
+  </recv_diameter >
+  
+
+</scenario>
+

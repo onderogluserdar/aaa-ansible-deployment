@@ -1,5 +1,5 @@
 
-- hosts: ms
+- hosts: test
   name: Deployment
   gather_facts: no
   remote_user: root
@@ -7,35 +7,70 @@
 
   tasks:
 
-    - name: print json files
-      local_action: command cat {{ item }}
-      with_fileglob:
-        - "roles/ms/files/*.json"
+    - name: generate parameter file for AAAServer
+      local_action: template src=roles/test/templates/params{{ item }}.j2 dest=roles/test/files/{{ item }}/cf/params
+      with_items:
+        - server
+        - proxy
 
 
-    - name: Login to MS
-      uri:
-        url: http://{{ ansible_host }}:8080/login?username=demo&password=demo
-        method: POST
-        body: "username=demo&password=demo"
-        status_code: 302
-        headers:
-          Content-Type: "application/json"
-      register: login
+  # - name: Login to MS
+  #   uri:
+  #     url: http://{{ ansible_host }}:8080/login?username=demo&password=demo
+  #     method: POST
+  #     force_basic_auth: yes
+       #body: "username=demo&password=demo"
+  #     status_code: 302
+  #     headers:
+  #       Content-Type: "application/json"
+  #   register: login
 
-    - name: Send AddInstance Request to MS
-      uri:
-        url: http://{{ ansible_host }}:8080/instances
-        method: POST
-        status_code: 200
-        body_format: json
-        #body: "{{ item }}"
-        body: "{{ lookup('file','{{ item }}') }}"
-        headers:
-          Content-Type: "application/json"
-          Cookie: "{{login.set_cookie}}"
-      with_fileglob:
-        - "roles/ms/files/*.json"
+   #- name: Send AddInstance Request to MS
+   #  uri:
+   #    url: http://{{ ansible_host }}:8080/instances
+   #    method: POST
+   #    force_basic_auth: yes
+   #    status_code: 200
+   #    body_format: json
+   #    body: "{{ lookup('file','{{ item }}') }}"
+   #    headers:
+   #      Content-Type: "application/json"
+   #      Cookie: "{{login.set_cookie}}"
+   #  with_fileglob:
+   #    - "roles/ms/files/*.json"
+    #- name: dict test
+    #   debug: var=
+
+
+    #- name: print json files
+    #  local_action: command cat {{ item }}
+    #  with_fileglob:
+    #    - "roles/ms/files/*.json"
+
+
+    #- name: Login to MS
+    #  uri:
+    #    url: http://{{ ansible_host }}:8080/login?username=demo&password=demo
+    #    method: POST
+    #    body: "username=demo&password=demo"
+    #    status_code: 302
+    #    headers:
+    #      Content-Type: "application/json"
+    #  register: login
+
+    #- name: Send AddInstance Request to MS
+    #  uri:
+    #    url: http://{{ ansible_host }}:8080/instances
+    #    method: POST
+    #    status_code: 200
+    #    body_format: json
+    #    #body: "{{ item }}"
+    #    body: "{{ lookup('file','{{ item }}') }}"
+    #    headers:
+    #      Content-Type: "application/json"
+    #      Cookie: "{{login.set_cookie}}"
+    #  with_fileglob:
+    #    - "roles/ms/files/*.json"
 
 
     #- name: find json files under dir roles/ms/files

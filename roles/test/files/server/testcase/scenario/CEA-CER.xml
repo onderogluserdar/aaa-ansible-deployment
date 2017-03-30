@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE scenario SYSTEM "sipp.dtd">
+
+<scenario name="CEA-CER">
+<!--  Avp-Name(AvpCode, AvpFlags, AvpVendorID, AvpDataType):"Avp Data"  --> 	
+    
+   <recv_diameter name="CER">
+  </recv_diameter>
+  
+  <send_diameter>
+  	<![CDATA[
+  		<CEA> 
+      Result-Code:"2001"
+      Origin-Host:"[$componentName].[originhost]"
+      Origin-Realm:"[$componentName].[originrealm]"
+      Host-IP-Address:"[local_ip]"
+      Vendor-Id:"10415"
+      Product-Name:"Netas [$componentName]"
+      Firmware-Revision:"1"
+  	]]>
+  </send_diameter>
+  
+</scenario>
+

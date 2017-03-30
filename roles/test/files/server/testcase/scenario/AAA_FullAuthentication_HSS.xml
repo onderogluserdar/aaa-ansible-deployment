@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE scenario SYSTEM "sipp.dtd">
+
+<scenario name="AAA_FullAuthentication_HSS">
+<!--  Avp-Name(AvpCode, AvpFlags, AvpVendorID, AvpDataType):"Avp Data"  --> 	
+
+	<Global variables="componentName"/>
+	
+	<nop>  
+  		<action>   
+  			<assignstr assign_to="componentName" value="HSS"/>
+		</action>
+	</nop>
+
+	<include file="testcase/scenario/CEA-CER.xml"/>
+  
+  	<recv_diameter name="MAR">
+  	</recv_diameter >
+
+   	<send_diameter>
+  		<![CDATA[
+  			<MAA>
+	  	  Session-Id:"[last_Session-Id]"
+	  	  Vendor-Specific-Application-Id:{
+	  	  	Vendor-Id:"10415"
+	  	  	Auth-Application-Id:"[swxId]"
+	  	  }
+	  	  Result-Code:"2001"
+		  Auth-Session-State:"1"
+	      Origin-Host:"[$componentName].[originhost]"
+	      Origin-Realm:"[$componentName].[originrealm]"
+	      User-Name:"[userimsi]"
+		  SIP-Number-Auth-Items:"1"
+	      SIP-Auth-Data-Item:{
+		      SIP-Authentication-Scheme:"EAP-AKA"
+		      SIP-Authenticate:0x"ab004c18c7ad0459700b975837ad3453ad5f1a4c9f5f8000ea0e520ae5a968ce"
+		      SIP-Authorization:0x"2282f3a6fd65c21c"
+		      Confidentiality-Key:0x"746bb9e40a3b66ff62a2b783c27c3c75"
+		      Integrity-Key:0x"1e61fe0d66d37cb2c49c7fa64443ff20"
+		  }
+  		]]>
+  	</send_diameter>
+	
+	<recv_diameter name="SAR">
+		<action>
+			<logscr message="Received Server-Assignment-Type: [last_Server-Assignment-Type] - Expected Server-Assignment-Type: 12"/>
+			<compare_to_fail value="[last_Server-Assignment-Type]" value2="12" compare="not_equal"/>
+		</action>
+   	</recv_diameter >
+
+   	<send_diameter>
+  		<![CDATA[
+  			<SAA>
+	  	  Session-Id:"[last_Session-Id]"
+	  	  Vendor-Specific-Application-Id:{
+	  	  	Vendor-Id:"[last_Vendor-Specific-Application-Id.Vendor-Id]"
+	  	  	Auth-Application-Id:"[last_Vendor-Specific-Application-Id.Auth-Application-Id]"
+	  	  }
+		  Auth-Session-State:"1"
+	  	  Result-Code:"2001"
+	      Origin-Host:"[$componentName].[originhost]"
+	      Origin-Realm:"[$componentName].[originrealm]"
+	      User-Name:"[userimsi]"
+		  Non-3GPP-User-Data:{
+		   	Non-3GPP-IP-Access:"0"
+		   	Non-3GPP-IP-Access-APN:"0"
+			Context-Identifier:"101"
+			APN-Configuration:{
+				Context-Identifier:"101"
+				PDN-Type:"0"
+				Service-Selection:"wlan"
+			}
+			APN-Configuration:{
+				Context-Identifier:"105"
+				PDN-Type:"0"
+				Service-Selection:"utran"
+			}
+		  }
+  		]]>
+  	</send_diameter>
+	
+	<recv_diameter name="SAR">
+		<action>
+			<logscr message="Received Server-Assignment-Type: [last_Server-Assignment-Type] - Expected Server-Assignment-Type: 1"/>
+			<compare_to_fail value="[last_Server-Assignment-Type]" value2="1" compare="not_equal"/>
+		</action>
+   	</recv_diameter >
+
+   	<send_diameter>
+  		<![CDATA[
+  			<SAA>
+	  	  Session-Id:"[last_Session-Id]"
+	  	  Vendor-Specific-Application-Id:{
+	  	  	Vendor-Id:"[last_Vendor-Specific-Application-Id.Vendor-Id]"
+	  	  	Auth-Application-Id:"[last_Vendor-Specific-Application-Id.Auth-Application-Id]"
+	  	  }
+		  Auth-Session-State:"1"
+	  	  Result-Code:"2001"
+	      Origin-Host:"[$componentName].[originhost]"
+	      Origin-Realm:"[$componentName].[originrealm]"
+	      User-Name:"[userimsi]"
+  		]]>
+  	</send_diameter>
+  
+</scenario>
+

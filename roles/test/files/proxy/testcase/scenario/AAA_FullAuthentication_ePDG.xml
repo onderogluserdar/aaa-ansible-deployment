@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE scenario SYSTEM "sipp.dtd">
+
+<scenario name="AAA_FullAuthentication_ePDG">
+<!--  Avp-Name(AvpCode, AvpFlags, AvpVendorID, AvpDataType):"Avp Data"  --> 	
+
+	<Global variables="componentName"/>
+	
+	<nop>  
+  		<action> 
+  			<assignstr assign_to="componentName" value="ePDG"/>
+		</action>
+	</nop>
+
+   <include file="testcase/scenario/CER-CEA.xml"/>
+    
+   <send_diameter>
+   		<![CDATA[
+  	    	<DER_SWm>
+	       Session-Id:"[field0];1096298391;0"	
+		   Auth-Application-Id:"[swmId]"
+		   Origin-Host:"[$componentName].[originhost]"
+	       Origin-Realm:"[$componentName].[originrealm]"
+	       Destination-Realm:"aaa.[originrealm]"
+	       Auth-Request-Type:"3"
+		   EAP-Payload:0x"[field1]"
+		   MIP6-Feature-Vector:"70368744177664"
+  		]]>
+		
+	</send_diameter>
+	
+	<recv_diameter name="DEA_SWm">
+		<action>
+			<logscr message="Received Result-Code: [last_Result-Code] - Expected Result-Code: 1001"/>
+			<compare_to_fail value="[last_Result-Code]" value2="1001" compare="not_equal"/>
+		</action>
+    </recv_diameter>
+	
+	<send_diameter>
+   		<![CDATA[
+  	    	<DER_SWm>
+	       Session-Id:"[field0];1096298391;0"	
+		   Auth-Application-Id:"[swmId]"
+		   Origin-Host:"[$componentName].[originhost]"
+	       Origin-Realm:"[$componentName].[originrealm]"
+	       Destination-Realm:"aaa.[originrealm]"
+	       Auth-Request-Type:"3"
+		   EAP-Payload:0x"[field2]"
+		   MIP6-Feature-Vector:"70368744177664"
+  		]]>
+	</send_diameter>
+	
+	<recv_diameter name="DEA_SWm">
+		<action>
+			<logscr message="Received Result-Code: [last_Result-Code] - Expected Result-Code: 2001"/>
+			<compare_to_fail value="[last_Result-Code]" value2="2001" compare="not_equal"/>
+		</action>
+    </recv_diameter>
+	
+</scenario>
+

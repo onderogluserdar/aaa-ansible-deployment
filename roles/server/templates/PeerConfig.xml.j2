@@ -57,5 +57,51 @@
     </Peer>
 {% endfor %}
 
+{% for host in peerList %}
+    <Peer name="{{ host.name }}">
+        <Origin-Host-Name>{{ host.name }}.netas.com</Origin-Host-Name>
+        <Origin-Realm>{{ host.name }}.realm.netas.com</Origin-Realm>
+        <Remote-Address>aaa://{{ hostvars['testenv']['ansible_host'] }}:{{ host.port }};transport=tcp;protocol=diameter</Remote-Address>
+
+        <Peer-Group-Name></Peer-Group-Name>
+
+        <!--can be: - offline^M
+                - active^M
+                - passive    -->
+        {% if host.type == 'HSS' %}
+        <Maintenance-State>active</Maintenance-State>
+
+        <Vendor-Specific-Auth-Application-Id>^M
+                <Vendor-Id>10415</Vendor-Id>^M
+                <Application-Id>16777265</Application-Id>
+        </Vendor-Specific-Auth-Application-Id>
+        {% endif %}
+        {% if host.type == 'ePDG' %}
+        <Maintenance-State>passive</Maintenance-State>
+
+        <Vendor-Specific-Auth-Application-Id>^M
+                <Vendor-Id>10415</Vendor-Id>^M
+                <Application-Id>16777264</Application-Id>
+        </Vendor-Specific-Auth-Application-Id>
+        {% endif %}
+        {% if host.type == 'PDN' %}
+        <Maintenance-State>passive</Maintenance-State>
+
+        <Vendor-Specific-Auth-Application-Id>^M
+                <Vendor-Id>10415</Vendor-Id>^M
+                <Application-Id>16777272</Application-Id>
+        </Vendor-Specific-Auth-Application-Id>
+        {% endif %}
+  
+        <Connection-Timeout>0</Connection-Timeout>
+        <Reconnection-Timeout>10000</Reconnection-Timeout>
+        <Watchdog-Timeout>30000</Watchdog-Timeout>
+        <State-Machine-Timeout>30000</State-Machine-Timeout>
+        <Send-Message-Timeout>0</Send-Message-Timeout>
+        <Queue-Size-Limit>100000</Queue-Size-Limit>
+        <Database-Row-Id>120</Database-Row-Id>
+    </Peer> 
+
+{% endfor %}
 
 </PeerConfig>

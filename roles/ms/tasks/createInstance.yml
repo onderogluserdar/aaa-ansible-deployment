@@ -16,20 +16,29 @@
        port: 8080
        state: started
 
+   #- name: Pause 30 seconds
+   #  pause: seconds=30
+
    - name: Login to MS
      uri:
        url: http://{{ ansible_host }}:8080/login?username=demo&password=demo
        method: POST
-       body: "username=demo&password=demo"
+       #force_basic_auth: yes
+       #user: demo
+       #password: demo
+       #body: "username=demo&password=demo"
        status_code: 302
        headers:
          Content-Type: "application/json"
      register: login
 
+   - debug: msg={{ login }} 
+
    - name: Send AddInstance Request to MS
      uri:
        url: http://{{ ansible_host }}:8080/instances
        method: POST
+       force_basic_auth: yes
        status_code: 200
        body_format: json
        body: "{{ lookup('file','{{ item }}') }}"

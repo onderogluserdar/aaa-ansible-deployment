@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase name="AAA Full Authentication Test Scenarios">
+
+	<nop>
+		<action>
+			<logscr message="******* Testcase [tc_name] is starting ******"/>
+		</action>
+	</nop> 
+
+	<run mode="all">
+		<scenario file="testcase/scenario/AAA_FullAuthentication_HSS.xml" id="1" parameters="-i [hss_ip] -p [hss_port]"/>
+		<scenario file="testcase/scenario/AAA_FullAuthentication_ePDG.xml" id="2" parameters="[$aaa_fqdn] -i [epdg_ip] -p [epdg_port]"/>                                                       
+	</run>
+
+	<nop>
+		<action>
+			<logscr message="******* Result for testcase [tc_name] is [tc_result] ******"/>
+		</action>
+	</nop>
+</testcase>
