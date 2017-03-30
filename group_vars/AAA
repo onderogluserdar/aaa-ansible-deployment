@@ -4,4 +4,4 @@ conf_backup_dir: /var/conf_backup
 temp_dir: /tmp/aaa
 
 str_required: true
-hss_restoration: 0
+hss_restoration: 1

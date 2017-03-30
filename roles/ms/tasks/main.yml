@@ -17,7 +17,7 @@
 #  file: path={{ db_backup_dir }} state=directory
 
 - name: backup previous load conf files
-  command: cp  ~/*.db {{ db_backup_dir }}
+  command: cp {{ ms_directory }}/aaa_orm.mv.db {{ db_backup_dir }}
   ignore_errors: yes
   register: isExist
 
@@ -52,7 +52,7 @@
 
 - block:
     - name: recover backup db data
-      command: cp -a {{ db_backup_dir }}/. ~/
+      command: cp -a {{ db_backup_dir }}/. {{ ms_directory }}
 
     - name: remove backup file
       file: path={{ db_backup_dir }} state=absent
@@ -60,7 +60,7 @@
     - set_fact: freshConf=false
   when: isExist|succeeded
 
-- file: path={{ db_backup_dir }} state=absent  
+#- file: path={{ db_backup_dir }} state=absent  
 
 #- debug: var=freshConf
 

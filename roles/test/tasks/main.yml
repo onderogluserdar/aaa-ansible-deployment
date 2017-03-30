@@ -17,8 +17,20 @@
     - server
     - proxy
 
-- name: run tests
-  shell: ./runtest.sh
-  args:
-    chdir: /opt/server/
- 
+- block:
+    - name: run tests
+      shell: ./runtest.sh
+      args:
+        chdir: /opt/server/
+
+    - name: wait for results
+      wait_for: path={{ resultFiledir }} state=present
+
+    - name: print resultFile
+      command: cat {{ resultFiledir }}
+      register: resultFile
+
+    - debug: msg="{{ resultFile.stdout }}"
+
+    - file: path={{ resultFiledir }} state=absent
+  when: runTest

@@ -13,11 +13,12 @@
 - block:
    - name: wait for 8080 port to be started
      wait_for:
+       host: "{{ ansible_host }}"
        port: 8080
        state: started
 
-   #- name: Pause 30 seconds
-   #  pause: seconds=30
+   #- name: Pause 60 seconds
+   #  pause: seconds=60
 
    - name: Login to MS
      uri:

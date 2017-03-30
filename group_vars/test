@@ -1,0 +1,3 @@
+---
+runTest: true
+resultFiledir: /opt/server/resultFile.txt
