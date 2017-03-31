@@ -7,7 +7,7 @@
 		</action>
 	</nop> 
 
-	<run mode="all">
+	<run mode="all" maxtime="[def_tc_timeout]">
 		<scenario file="testcase/scenario/AAA_FullAuthentication_HSS.xml" id="1" parameters="-i [hss_ip] -p [hss_port]"/>
 		<scenario file="testcase/scenario/AAA_FullAuthentication_ePDG.xml" id="2" parameters="[$aaa_fqdn] -i [epdg_ip] -p [epdg_port]"/>                                                       
 	</run>

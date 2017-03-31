@@ -170,16 +170,14 @@
       {% endif %}   
          {% endfor %}
     {% for host in peerList %}
+{% if host.type == 'HSS' %}
+{% else %}
     ,
       {
          "name":"{{ host.name }}",
          "originHostName":"{{ host.name }}.netas.com",
          "originRealm":"{{ host.name }}.realm.netas.com",
-         {% if host.type == 'HSS' %}
-         "maintenanceStatus":"active",
-         {% else %}
          "maintenanceStatus":"passive",
-         {% endif %}
          "accountApplications":[],
          "authenticationApplications":[],
          "vendorAccountApplications":[],
@@ -207,7 +205,8 @@
          "sendMessageTimeout":0,
          "queueSizeLimit":100000,
          "databaseRowId":120
-      } 
+      }
+{% endif %} 
          {% endfor %}
    ]
 }

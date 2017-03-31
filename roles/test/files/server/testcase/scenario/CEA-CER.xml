@@ -11,11 +11,11 @@
   	<![CDATA[
   		<CEA> 
       Result-Code:"2001"
-      Origin-Host:"[$componentName].[originhost]"
-      Origin-Realm:"[$componentName].[originrealm]"
+      Origin-Host:"HSS.[originhost]"
+      Origin-Realm:"HSS.[originrealm]"
       Host-IP-Address:"[local_ip]"
       Vendor-Id:"10415"
-      Product-Name:"Netas [$componentName]"
+      Product-Name:"Netas HSS"
       Firmware-Revision:"1"
   	]]>
   </send_diameter>

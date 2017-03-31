@@ -1,17 +1,21 @@
 
-- hosts: test
+- hosts: ms
   name: Deployment
   gather_facts: no
   remote_user: root
+  become: yes
   #strategy: debug
 
   tasks:
 
-    - name: generate parameter file for AAAServer
-      local_action: template src=roles/test/templates/params{{ item }}.j2 dest=roles/test/files/{{ item }}/cf/params
-      with_items:
-        - server
-        - proxy
+    - name: create db backup directory
+      file: path={{ db_backup_dir }} state=directory
+
+    #- name: generate parameter file for AAAServer
+    #  local_action: template src=roles/test/templates/params{{ item }}.j2 dest=roles/test/files/{{ item }}/cf/params
+    #  with_items:
+    #    - server
+    #    - proxy
 
 
   # - name: Login to MS

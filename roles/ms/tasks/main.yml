@@ -7,14 +7,14 @@
 #- file: path={{ ms_directory }} state=absent
 #  tags:
 #     - reset
-#- file: path={{ db_backup_dir }} state=absent
-#  tags:
-#     - reset
+- file: path={{ db_backup_dir }} state=absent
+  tags:
+     - reset
 
 # Backup db
 
-#- name: create db backup directory
-#  file: path={{ db_backup_dir }} state=directory
+- name: create db backup directory
+  file: path={{ db_backup_dir }} state=directory
 
 - name: backup previous load conf files
   command: cp {{ ms_directory }}/aaa_orm.mv.db {{ db_backup_dir }}
@@ -60,7 +60,7 @@
     - set_fact: freshConf=false
   when: isExist|succeeded
 
-#- file: path={{ db_backup_dir }} state=absent  
+- file: path={{ db_backup_dir }} state=absent  
 
 #- debug: var=freshConf
 

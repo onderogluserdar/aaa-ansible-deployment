@@ -11,6 +11,9 @@
 #  when: freshConf == true
 
 - block:
+   #- name: wait for me to tailf log file
+   #  pause: seconds=30
+
    - name: wait for 8080 port to be started
      wait_for:
        host: "{{ ansible_host }}"
@@ -37,7 +40,7 @@
 
    - name: Send AddInstance Request to MS
      uri:
-       url: http://{{ ansible_host }}:8080/instances
+       url: http://{{ ansible_host }}:8080/api/instances
        method: POST
        force_basic_auth: yes
        status_code: 200

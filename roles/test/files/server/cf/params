@@ -1,4 +1,6 @@
 key=userimsi=200010001000021,\
+def_suite_timeout=60000,\
+def_tc_timeout=20000,\
 	userdomain=wlan.mnc001.mcc200.3gppnetwork.org,\
 	firsteap=02000038013032303030313030303130303030323140776c616e2e6d6e633030312e6d63633230302e336770706e6574776f726b2e6f7267,\
 	secondeap=02010028170100000b05000004c6773c785f122d52dddcbeec17f79a030300402282f3a6fd65c21c,\
@@ -7,7 +9,7 @@ key=userimsi=200010001000021,\
 	s6bId=16777272,\
 	originhost=netas.com,\
 	originrealm=realm.netas.com,\
-epdg_ip=10.45.0.10,epdg_port=3870,\
-hss_ip=10.45.0.10,hss_port=3871,\
-pdn_ip=10.45.0.10,pdn_port=3872,\
-aaa_ip=10.45.0.7,aaa_port=3868
+epdg_ip=47.168.59.217,epdg_port=3870,\
+hss_ip=47.168.59.217,hss_port=3871,\
+pdn_ip=47.168.59.217,pdn_port=3872,\
+aaa_ip=47.168.59.215,aaa_port=3868

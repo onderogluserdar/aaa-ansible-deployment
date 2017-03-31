@@ -59,6 +59,8 @@
 {% endfor %}
 
 {% for host in peerList %}
+{% if host.type == 'HSS' %}
+{% else %}
     <Peer name="{{ host.name }}">
         <Origin-Host-Name>{{ host.name }}.netas.com</Origin-Host-Name>
         <Origin-Realm>{{ host.name }}.realm.netas.com</Origin-Realm>
@@ -69,14 +71,6 @@
         <!--can be: - offline^M
                 - active^M
                 - passive    -->
-        {% if host.type == 'HSS' %}
-        <Maintenance-State>active</Maintenance-State>
-
-        <Vendor-Specific-Auth-Application-Id>^M
-                <Vendor-Id>10415</Vendor-Id>^M
-                <Application-Id>16777265</Application-Id>
-        </Vendor-Specific-Auth-Application-Id>
-        {% endif %}
         {% if host.type == 'ePDG' %}
         <Maintenance-State>passive</Maintenance-State>
 
@@ -102,7 +96,7 @@
         <Queue-Size-Limit>100000</Queue-Size-Limit>
         <Database-Row-Id>120</Database-Row-Id>
     </Peer> 
-
+{% endif %}
 {% endfor %}
 
 </PeerConfig>

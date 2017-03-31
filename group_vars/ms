@@ -1,4 +1,4 @@
 ---
 ms_directory: /var/aaa_ms
-db_backup_dir: /var/ms_db_backup
+db_backup_dir: /var/ms_db_backup/
 temp_dir: /tmp/aaa_ms

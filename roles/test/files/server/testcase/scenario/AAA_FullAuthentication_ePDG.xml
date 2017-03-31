@@ -4,13 +4,6 @@
 <scenario name="AAA_FullAuthentication_ePDG">
 <!--  Avp-Name(AvpCode, AvpFlags, AvpVendorID, AvpDataType):"Avp Data"  --> 	
 
-	<Global variables="componentName"/>
-	
-	<nop>  
-  		<action> 
-  			<assignstr assign_to="componentName" value="ePDG"/>
-		</action>
-	</nop>
 
    <include file="testcase/scenario/CER-CEA.xml"/>
     
@@ -19,8 +12,8 @@
   	    	<DER_SWm>
 	       Session-Id:"[field0];1096298391;0"	
 		   Auth-Application-Id:"[swmId]"
-		   Origin-Host:"[$componentName].[originhost]"
-	       Origin-Realm:"[$componentName].[originrealm]"
+		   Origin-Host:"ePDG.[originhost]"
+	       Origin-Realm:"ePDG.[originrealm]"
 	       Destination-Realm:"aaa.[originrealm]"
 	       Auth-Request-Type:"3"
 		   EAP-Payload:0x"[field1]"
@@ -41,8 +34,8 @@
   	    	<DER_SWm>
 	       Session-Id:"[field0];1096298391;0"	
 		   Auth-Application-Id:"[swmId]"
-		   Origin-Host:"[$componentName].[originhost]"
-	       Origin-Realm:"[$componentName].[originrealm]"
+		   Origin-Host:"ePDG.[originhost]"
+	       Origin-Realm:"ePDG.[originrealm]"
 	       Destination-Realm:"aaa.[originrealm]"
 	       Auth-Request-Type:"3"
 		   EAP-Payload:0x"[field2]"

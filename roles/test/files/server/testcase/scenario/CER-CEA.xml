@@ -6,11 +6,11 @@
   <send_diameter>
   	<![CDATA[
   		<CER> : < Diameter Header: 257, REQ>
-      Origin-Host(264, M, 0, OctetString):"[$componentName].[originhost]"
-      Origin-Realm(296, M, 0, OctetString):"[$componentName].[originrealm]"
+      Origin-Host(264, M, 0, OctetString):"ePDG.[originhost]"
+      Origin-Realm(296, M, 0, OctetString):"ePDG.[originrealm]"
       Host-IP-Address(257, M, 0, Address):"[local_ip]"
       Vendor-Id(266, M, 0, Integer32):"10415"
-      Product-Name(269, , 0, OctetString):"Netas [$componentName]"
+      Product-Name(269, , 0, OctetString):"Netas ePDG"
       Supported-Vendor-Id(265, M, 0, Integer32):"10415"
       Vendor-Specific-Application-Id(260, M, 0, Grouped):{
          Vendor-Id(266, M, 0, Integer32):"10415"

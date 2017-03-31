@@ -21,7 +21,10 @@
    <AAA-Server>{{ hostvars[host]['inventory_hostname'] }}.netas.com</AAA-Server>
 {% endfor %}
 {% for host in peerList %}
+{% if host.type == 'HSS' %}
+{% else %}
    <{{ host.type }}>{{ host.name }}.netas.com</{{ host.type }}>
+{% endif %} 
 {% endfor %}
    </Peers>
 </AAAConfiguration>
