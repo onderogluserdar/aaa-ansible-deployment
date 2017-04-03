@@ -2,7 +2,13 @@
 <!DOCTYPE scenario SYSTEM "sipp.dtd">
 
 <scenario name="CEA-CER">
-<!--  Avp-Name(AvpCode, AvpFlags, AvpVendorID, AvpDataType):"Avp Data"  --> 	
+<!--  Avp-Name(AvpCode, AvpFlags, AvpVendorID, AvpDataType):"Avp Data"  -->
+
+  <nop>  
+      <action> 
+        <assignstr assign_to="component" value="[$componentName]"/>
+    </action>
+  </nop> 	
     
    <recv_diameter name="CER">
   </recv_diameter>
@@ -11,11 +17,11 @@
   	<![CDATA[
   		<CEA> 
       Result-Code:"2001"
-      Origin-Host:"[$componentName].[originhost]"
-      Origin-Realm:"[$componentName].[originrealm]"
+      Origin-Host:"[$component].[originhost]"
+      Origin-Realm:"[$component].[originrealm]"
       Host-IP-Address:"[local_ip]"
       Vendor-Id:"10415"
-      Product-Name:"Netas [$componentName]"
+      Product-Name:"Netas [$component]"
       Firmware-Revision:"1"
   	]]>
   </send_diameter>

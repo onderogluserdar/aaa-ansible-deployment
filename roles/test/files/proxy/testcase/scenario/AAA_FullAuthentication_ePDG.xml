@@ -4,8 +4,6 @@
 <scenario name="AAA_FullAuthentication_ePDG">
 <!--  Avp-Name(AvpCode, AvpFlags, AvpVendorID, AvpDataType):"Avp Data"  --> 	
 
-	<Global variables="componentName"/>
-	
 	<nop>  
   		<action> 
   			<assignstr assign_to="componentName" value="ePDG"/>

@@ -4,6 +4,11 @@
 <scenario name="AAA_FullAuthentication_HSS">
 <!--  Avp-Name(AvpCode, AvpFlags, AvpVendorID, AvpDataType):"Avp Data"  --> 	
 
+	<nop>  
+  		<action> 
+  			<assignstr assign_to="componentName" value="HSS"/>
+		</action>
+	</nop>
 
 	<include file="testcase/scenario/CEA-CER.xml"/>
   
@@ -20,8 +25,8 @@
 	  	  }
 	  	  Result-Code:"2001"
 		  Auth-Session-State:"1"
-	      Origin-Host:"HSS.[originhost]"
-	      Origin-Realm:"HSS.[originrealm]"
+	      Origin-Host:"[$componentName].[originhost]"
+	      Origin-Realm:"[$componentName].[originrealm]"
 	      User-Name:"[last_User-Name]"
 		  SIP-Number-Auth-Items:"1"
 	      SIP-Auth-Data-Item:{
@@ -51,8 +56,8 @@
 	  	  }
 		  Auth-Session-State:"1"
 	  	  Result-Code:"2001"
-	      Origin-Host:"HSS.[originhost]"
-	      Origin-Realm:"HSS.[originrealm]"
+	      Origin-Host:"[$componentName].[originhost]"
+	      Origin-Realm:"[$componentName].[originrealm]"
 	      User-Name:"[last_User-Name]"
 		  Non-3GPP-User-Data:{
 		   	Non-3GPP-IP-Access:"0"

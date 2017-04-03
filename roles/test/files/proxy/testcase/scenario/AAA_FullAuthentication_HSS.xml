@@ -4,10 +4,8 @@
 <scenario name="AAA_FullAuthentication_HSS">
 <!--  Avp-Name(AvpCode, AvpFlags, AvpVendorID, AvpDataType):"Avp Data"  --> 	
 
-	<Global variables="componentName"/>
-	
 	<nop>  
-  		<action>   
+  		<action> 
   			<assignstr assign_to="componentName" value="HSS"/>
 		</action>
 	</nop>
@@ -29,14 +27,14 @@
 		  Auth-Session-State:"1"
 	      Origin-Host:"[$componentName].[originhost]"
 	      Origin-Realm:"[$componentName].[originrealm]"
-	      User-Name:"[userimsi]"
+	      User-Name:"[last_User-Name]"
 		  SIP-Number-Auth-Items:"1"
 	      SIP-Auth-Data-Item:{
 		      SIP-Authentication-Scheme:"EAP-AKA"
-		      SIP-Authenticate:0x"ab004c18c7ad0459700b975837ad3453ad5f1a4c9f5f8000ea0e520ae5a968ce"
-		      SIP-Authorization:0x"2282f3a6fd65c21c"
-		      Confidentiality-Key:0x"746bb9e40a3b66ff62a2b783c27c3c75"
-		      Integrity-Key:0x"1e61fe0d66d37cb2c49c7fa64443ff20"
+		      SIP-Authenticate:0x"ac98440ed6ff3e0675706a6e3a61287dad0bc3e35aee800005f413b0bed2ca42"
+		      SIP-Authorization:0x"6c2164291c560828"
+		      Confidentiality-Key:0x"ae60dafcac4fa235175590e91b225793"
+		      Integrity-Key:0x"b58475dbbe4a7444ebf51ce6d6751ad0"
 		  }
   		]]>
   	</send_diameter>
@@ -60,7 +58,7 @@
 	  	  Result-Code:"2001"
 	      Origin-Host:"[$componentName].[originhost]"
 	      Origin-Realm:"[$componentName].[originrealm]"
-	      User-Name:"[userimsi]"
+	      User-Name:"[last_User-Name]"
 		  Non-3GPP-User-Data:{
 		   	Non-3GPP-IP-Access:"0"
 		   	Non-3GPP-IP-Access-APN:"0"
@@ -96,9 +94,9 @@
 	  	  }
 		  Auth-Session-State:"1"
 	  	  Result-Code:"2001"
-	      Origin-Host:"[$componentName].[originhost]"
-	      Origin-Realm:"[$componentName].[originrealm]"
-	      User-Name:"[userimsi]"
+	      Origin-Host:"HSS.[originhost]"
+	      Origin-Realm:"HSS.[originrealm]"
+	      User-Name:"[last_User-Name]"
   		]]>
   	</send_diameter>
   

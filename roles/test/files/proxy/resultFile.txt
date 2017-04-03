@@ -1,8 +1,0 @@
-#------ Test-suite file=test_suite.xml name= Diameter AAA Test Suite ------
-  # <run-0>
-     #------ Testcase file=testcase/tc1_authentication.xml name= AAA Full Authentication Test Scenarios ------
-       # <run-0>
-          SC;testcase/scenario/AAA_FullAuthentication_HSS.xml;77;FAILED;Exception occurred during the processing of scenario file <testcase/scenario/AAA_FullAuthentication_HSS.xml>. Exiting...
-          SC;testcase/scenario/AAA_FullAuthentication_ePDG.xml;84;FAILED;Exception occurred during the processing of scenario file <testcase/scenario/AAA_FullAuthentication_ePDG.xml>. Exiting...
-     TC;testcase/tc1_authentication.xml;1. Diameter Basic Authentication Test Case;303;FAILED;
-TS;test_suite.xml;Diameter AAA Test Suite;479;FAILED;

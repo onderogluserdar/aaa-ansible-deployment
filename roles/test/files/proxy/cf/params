@@ -12,4 +12,4 @@ def_tc_timeout=20000,\
 epdg_ip=47.168.59.217,epdg_port=3870,\
 hss_ip=47.168.59.217,hss_port=3871,\
 pdn_ip=47.168.59.217,pdn_port=3872,\
-aaa_ip=47.168.59.216,aaa_port=3868
+aaa_ip=47.168.59.215,aaa_port=3868
